@@ -13,9 +13,8 @@ module.exports.retrieveTop = function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            let results = JSON.stringify(result);
             res.status(200);
-            res.json(results);
+            res.json(result);
         }
     });
 }
