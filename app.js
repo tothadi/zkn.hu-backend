@@ -4,7 +4,7 @@
   Each is commented and marked with [SH] to make them easy to find
 
  */
-require('./api/config/config');
+//require('./api/config/config');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
