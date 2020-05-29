@@ -54,8 +54,9 @@ io.on('connection', function (client) {
     client.emit('connectStatus', 'Server Connected');
 
     const sendToClient = (img) => {
+        let frame = cv.imencode('.jpg', img).toString('base64');
         client.on('join', function () {
-            client.emit('stream', img)
+            client.emit('stream', { live: frame })
         });
     }
 
