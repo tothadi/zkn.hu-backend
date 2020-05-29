@@ -82,9 +82,9 @@ io.on('connection', function (client) {
 
     function tableUpdate() {
       Weight.find({}).sort({ date: -1 }).exec(function (err, result) {
-        if (err) throw err
-
-        if (result) {
+        if (err) {
+          console.log(err)
+        } else if (result) {
 
           let todayWeights = []
           let today = new Date()
@@ -92,7 +92,7 @@ io.on('connection', function (client) {
           let cMonth = today.getMonth() + 1
           let cDay = today.getDate()
 
-          for (var i = 0; i < this.result.length; i++) {
+          for (var i = 0; i < result.length; i++) {
 
             let date = result[i].date
             let year = date.getFullYear()
@@ -121,16 +121,16 @@ io.on('connection', function (client) {
   client.on('dateinput', function (data) {
 
     Weight.find({}).sort({ date: -1 }).exec(function (err, result) {
-      if (err) throw err
-
-      if (result) {
+      if (err) {
+        console.log(err)
+      } else if (result) {
         let expectedWeights = []
         let today = new Date(data)
         let cYear = today.getFullYear()
         let cMonth = today.getMonth() + 1
         let cDay = today.getDate()
 
-        for (var i = 0; i < this.result.length; i++) {
+        for (var i = 0; i < result.length; i++) {
 
           let date = result[i].date
           let year = date.getFullYear()
