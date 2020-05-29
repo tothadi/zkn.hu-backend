@@ -23,6 +23,7 @@ var server = http.createServer(app);
 
 module.exports.io = require('socket.io')(server)
 
+//valami
 require('../api/controllers/rdfservice')
 require('../api/controllers/stream')
 
