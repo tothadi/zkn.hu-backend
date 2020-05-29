@@ -35,14 +35,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'client')));
-app.use(favicon(__dirname + '/client/favicon.ico'));
 
 // [SH] Initialise Passport before using the route middleware
 //app.use(passport.initialize());
 
 // [SH] Use the API routes when path starts with /api
 app.use('/api', routesApi);
+
+app.use(express.static(path.join(__dirname, 'client')));
+app.use(favicon(__dirname + '/client/favicon.ico'));
 
 // This must be after defining the /api routes
 app.get('*', function (req, res) {
