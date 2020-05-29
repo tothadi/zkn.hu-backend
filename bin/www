@@ -85,7 +85,7 @@ io.on('connection', function (client) {
         if (err) {
           console.log(err)
         } else if (result) {
-
+          console.log(result)
           let todayWeights = []
           let today = new Date()
           let cYear = today.getFullYear()
@@ -94,7 +94,7 @@ io.on('connection', function (client) {
 
           for (var i = 0; i < result.length; i++) {
 
-            let date = result[i].date
+            let date = new Date(result[i].date)
             let year = date.getFullYear()
             let month = date.getMonth() + 1
             let day = date.GetDate()
@@ -124,6 +124,7 @@ io.on('connection', function (client) {
       if (err) {
         console.log(err)
       } else if (result) {
+        
         let expectedWeights = []
         let today = new Date(data)
         let cYear = today.getFullYear()
@@ -132,7 +133,7 @@ io.on('connection', function (client) {
 
         for (var i = 0; i < result.length; i++) {
 
-          let date = result[i].date
+          let date = new Date(result[i].date)
           let year = date.getFullYear()
           let month = date.getMonth() + 1
           let day = date.GetDate()
