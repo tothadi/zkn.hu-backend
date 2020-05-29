@@ -1,5 +1,5 @@
 require('events').defaultMaxListeners = 20;
-const service = require('./rdfservice');
+const service = require('../../bin/www');
 const net = require('net');
 const port = process.env.rdfPort
 const host = process.env.rdfIp;
