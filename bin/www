@@ -25,6 +25,7 @@ const io = require('socket.io')(server)
 
 const stats = require("stats-lite")
 const observe = require('observe')
+const mongoose = require('mongoose')
 const Weight = mongoose.model('Weight')
 
 let weightBuffer = []
