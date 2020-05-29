@@ -1,7 +1,8 @@
-const io = require('../bin/www').io
+const io = require('../../bin/www').io
 const stats = require("stats-lite")
 const observe = require('observe')
-const Weight = mongoose.model('Weight');
+const mongoose = require('mongoose')
+const Weight = mongoose.model('Weight')
 
 let weightBuffer = []
 
@@ -57,25 +58,29 @@ io.on('connection', function (client) {
 
         function tableUpdate() {
             Weight.find({}).sort({ date: -1 }).exec(function (err, result) {
-                if (err) throw err
-                let todayWeights = []
-                let today = new Date()
-                let cYear = today.getFullYear()
-                let cMonth = today.getMonth() + 1
-                let cDay = today.getDate()
+                if (err) {
+                    console.log(err)
+                } else if (result) {
+                    let todayWeights = []
+                    let today = new Date()
+                    let cYear = today.getFullYear()
+                    let cMonth = today.getMonth() + 1
+                    let cDay = today.getDate()
 
-                for (var i = 0; i < this.result.length; i++) {
+                    for (var i = 0; i < result.length; i++) {
 
-                    let date = result[i].date
-                    let year = date.getFullYear()
-                    let month = date.getMonth() + 1
-                    let day = date.GetDate()
+                        let date = result[i].date
+                        let year = date.getFullYear()
+                        let month = date.getMonth() + 1
+                        let day = date.getDate()
 
-                    if (year === cYear && month === cMonth && day === cDay) {
-                        todayWeights.push(result[i])
+                        if (year === cYear && month === cMonth && day === cDay) {
+                            todayWeights.push(result[i])
+                        }
                     }
+                    client.emit('tableupdate', todayWeights)
+
                 }
-                client.emit('tableupdate', todayWeights)
             })
         }
 
@@ -89,29 +94,33 @@ io.on('connection', function (client) {
     })
 
     client.on('dateinput', function (data) {
-        
-        Weight.find({}).sort({ date: -1 }).exec(function (err, result) {
-            if (err) throw err
-            let expectedWeights = []
-            let today = new Date(data)
-            let cYear = today.getFullYear()
-            let cMonth = today.getMonth() + 1
-            let cDay = today.getDate()
 
-            for (var i = 0; i < this.result.length; i++) {
+        Weight.find({}).sort({ date: 1 }).exec(function (err, result) {
+            if (err) {
+                console.log(err)
+            } else if (result) {
 
-                let date = result[i].date
-                let year = date.getFullYear()
-                let month = date.getMonth() + 1
-                let day = date.GetDate()
+                let expectedWeights = []
+                let today = new Date(data)
+                let cYear = today.getFullYear()
+                let cMonth = today.getMonth() + 1
+                let cDay = today.getDate()
 
-                if (year === cYear && month === cMonth && day === cDay) {
-                    expectedWeights.push(result[i])
+                for (var i = 0; i < result.length; i++) {
+
+                    let date = result[i].date
+                    let year = date.getFullYear()
+                    let month = date.getMonth() + 1
+                    let day = date.getDate()
+
+                    if (year === cYear && month === cMonth && day === cDay) {
+                        expectedWeights.push(result[i])
+                    }
                 }
+                client.emit('updatebydate', expectedWeights)
             }
-            client.emit('updatebydate', expectedWeights)
         })
-        
+
     })
 
     client.on('disconnect', function () {
