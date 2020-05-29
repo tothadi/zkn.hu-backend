@@ -29,7 +29,7 @@ const Weight = mongoose.model('Weight');
 
 let weightBuffer = []
 
-require('..api/controllers/scale')
+require('../api/controllers/scale')
 
 let vehicle = {
     weight: 0
