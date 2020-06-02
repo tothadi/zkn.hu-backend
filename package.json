@@ -39,8 +39,8 @@
   },
   "opencv4nodejs": {
     "disableAutoBuild": true,
-    "OPENCV_LIB_DIR": "C:\\myapps\\rdf-merleg\\node_modules\\opencv-build\\opencv\\build\\lib\\release",
-    "OPENCV_BIN_DIR": "C:\\myapps\\rdf-merleg\\node_modules\\opencv-build\\opencv\\build\\x64\\vc15\\bin",
-    "OPENCV_INCLUDE_DIR": "C:\\myapps\\rdf-merleg\\node_modules\\opencv-build\\opencv\\build\\include"
+    "OPENCV_LIB_DIR": ".heroku/vendor/lib",
+    "OPENCV_BIN_DIR": ".heroku/vendor/bin",
+    "OPENCV_INCLUDE_DIR": ".heroku/vendor/include"
   }
 }
