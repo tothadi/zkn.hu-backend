@@ -38,9 +38,6 @@
     "gulp-watch": "^5.0.1"
   },
   "opencv4nodejs": {
-    "disableAutoBuild": true,
-    "OPENCV_LIB_DIR": ".heroku/vendor/lib",
-    "OPENCV_BIN_DIR": ".heroku/vendor/bin",
-    "OPENCV_INCLUDE_DIR": ".heroku/vendor/include"
+    "disableAutoBuild": true
   }
 }
