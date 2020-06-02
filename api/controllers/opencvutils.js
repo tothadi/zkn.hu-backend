@@ -26,7 +26,7 @@ const grabFrames = (videoFile, delay, onFrame) => {
         }
     }, 0);
 };
-exports.grabFrames = grabFrames;
+exports.grabFrames = grabFrames
 
 exports.runVideoDetection = (src, detect) => {
     grabFrames(src, 10, frame => {

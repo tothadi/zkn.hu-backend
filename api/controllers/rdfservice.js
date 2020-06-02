@@ -4,7 +4,7 @@ const observe = require('observe')
 const mongoose = require('mongoose')
 const Weight = mongoose.model('Weight')
 
-const { runVideoDetection } = require('./opencvutils')
+const { runVideoDetection, cv } = require('./opencvutils')
 const link = process.env.StreamURI
 
 let weightBuffer = []
@@ -53,14 +53,13 @@ io.on('connection', function (client) {
 
     client.emit('connectStatus', 'Server Connected');
 
-    const sendToClient = (img) => {
-        let frame = cv.imencode('.jpg', img).toString('base64');
-        client.on('join', function () {
-            client.emit('stream', { live: frame })
-        });
-    }
-
-    runVideoDetection(link, sendToClient)
+    client.on('join', function () {
+        const sendToClient = (img) => {
+            let frame = cv.imencode('.jpg', img).toString('base64');
+            client.emit('stream', frame)
+        }
+        runVideoDetection(link, sendToClient)
+    })
 
     client.on('join', function (data) {
         console.log(data);
