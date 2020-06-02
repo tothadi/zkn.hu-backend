@@ -36,11 +36,5 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1"
-  },
-  "opencv4nodejs": {
-    "disableAutoBuild": true,
-    "OPENCV_LIB_DIR": "/tmp/build_daa6cfbf8ecb2f891fb9e59c8e5b9cad/node_modules/opencv-build/opencv/build/lib",
-    "OPENCV_BIN_DIR": "/tmp/build_daa6cfbf8ecb2f891fb9e59c8e5b9cad/node_modules/opencv-build/opencv/build/bin",
-    "OPENCV_INCLUDE_DIR": "/tmp/build_daa6cfbf8ecb2f891fb9e59c8e5b9cad/node_modules/opencv-build/opencv/build/include"
   }
 }
