@@ -4,7 +4,7 @@ const observe = require('observe')
 const mongoose = require('mongoose')
 const Weight = mongoose.model('Weight')
 
-const { runVideoDetection, cv } = require('./opencvutils')
+const { cv } = require('opencv4nodejs')
 
 let weightBuffer = []
 
@@ -47,61 +47,69 @@ module.exports.getWeights = (weight) => {
     }
 
 }
-//io
+
+const cap = new cv.VideoCapture(process.env.StreamURI)
+const fps = 25
+let counter = 0
+
+setInterval(() => {
+    let frame = cap.read()
+    counter++
+    if (counter === 1500) {
+        cap.reset()
+        counter = 0
+    }
+    if (frame.empty) {
+        cap.reset()
+        frame = cap.read()
+    } else {
+        const param = [cv.IMWRITE_JPEG_QUALITY, 11]
+        const img = cv.imencode('.jpeg', frame.resize(504,896), param).toString('base64')
+        io.emit('stream', img)
+    }
+}, Math.ceil(1000 / fps))
+
+function tableUpdate() {
+    Weight.find({}).sort({ date: -1 }).exec(function (err, result) {
+        if (err) {
+            console.log(err)
+        } else if (result) {
+            let todayWeights = []
+            let today = new Date()
+            let cYear = today.getFullYear()
+            let cMonth = today.getMonth() + 1
+            let cDay = today.getDate()
+
+            for (var i = 0; i < result.length; i++) {
+
+                let date = result[i].date
+                let year = date.getFullYear()
+                let month = date.getMonth() + 1
+                let day = date.getDate()
+
+                if (year === cYear && month === cMonth && day === cDay) {
+                    todayWeights.push(result[i])
+                }
+            }
+            io.emit('tableupdate', todayWeights)
+
+        }
+    })
+}
+
+observer.on('change', (change) => {
+    io.emit('weight', observer.subject.weight)
+    tableUpdate()
+})
+
 io.on('connection', function (client) {
 
-    client.emit('connectStatus', 'Server Connected');
-
-    client.on('join', function () {
-        const sendToClient = (img) => {
-            let frame = cv.imencode('.jpg', img).toString('base64');
-            client.emit('stream', frame)
-        }
-        runVideoDetection(process.env.StreamURI, sendToClient)
-    })
+    client.emit('connectStatus', 'Server Connected')
 
     client.on('join', function (data) {
-        console.log(data);
-    });
-
-    client.on('join', function () {
-
-        function tableUpdate() {
-            Weight.find({}).sort({ date: -1 }).exec(function (err, result) {
-                if (err) {
-                    console.log(err)
-                } else if (result) {
-                    let todayWeights = []
-                    let today = new Date()
-                    let cYear = today.getFullYear()
-                    let cMonth = today.getMonth() + 1
-                    let cDay = today.getDate()
-
-                    for (var i = 0; i < result.length; i++) {
-
-                        let date = result[i].date
-                        let year = date.getFullYear()
-                        let month = date.getMonth() + 1
-                        let day = date.getDate()
-
-                        if (year === cYear && month === cMonth && day === cDay) {
-                            todayWeights.push(result[i])
-                        }
-                    }
-                    client.emit('tableupdate', todayWeights)
-
-                }
-            })
-        }
-
+        console.log(data)
         tableUpdate()
-
-        observer.on('change', (change) => {
-            client.emit('weight', observer.subject.weight)
-            tableUpdate()
-        })
-
-    })
+    });
 
     client.on('dateinput', function (data) {
 
