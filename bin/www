@@ -27,7 +27,7 @@ module.exports.io = require('socket.io')(server)
 require('../api/controllers/rdfservice')
 
 /**
- * Listen on provided port, on all network interfaces. 
+ * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
