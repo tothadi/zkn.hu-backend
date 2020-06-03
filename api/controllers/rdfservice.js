@@ -55,7 +55,7 @@ let counter = 0
 setInterval(() => {
     let frame = cap.read()
     counter++
-    if (counter === 1500) {
+    if (counter === 750) {
         cap.reset()
         counter = 0
     }
