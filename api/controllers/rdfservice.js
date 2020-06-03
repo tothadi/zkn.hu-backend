@@ -1,5 +1,5 @@
 const io = require('../../bin/www').io
-const stats = require("stats-lite")
+const stats = require('stats-lite')
 const observe = require('observe')
 const mongoose = require('mongoose')
 const Weight = mongoose.model('Weight')
