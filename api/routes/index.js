@@ -11,7 +11,9 @@ const jwt = require('express-jwt')
 const ctrlNews = require('../controllers/newshandling')
 const ctrlActivities = require('../controllers/activitieshandling')
 const ctrlSelective = require('../controllers/selectivehandling')
-const ctrlResult = require('../controllers/resulthandling');
+const ctrlResult = require('../controllers/resulthandling')
+const ctrlStream = require('../controllers/stream')
+
 
 
 router.get('/news', ctrlNews.sendNews)
@@ -27,10 +29,9 @@ router.post('/checkpass', ctrlResult.checkPass)
 
 
 router.post('/selectiveupdate', ctrlSelective.updateSelective)
-//router.get('/user', auth, ctrlProfile.profileRead);
+router.get('/stream', ctrlStream.sendStream);
 router.get('/results', ctrlResult.retrieveTop);
 //router.post('/result', ctrlResult.retrieveOwn);
-
 //router.post('/signup', ctrlAuth.register);
 //router.post('/signin', ctrlAuth.login);
 //router.post('/play', ctrlResult.result);

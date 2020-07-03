@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www --trace-uncaught"
   },
   "dependencies": {
     "body-parser": "~1.19.0",
@@ -19,13 +19,13 @@
     "mongoose": "^5.8.1",
     "morgan": "^1.9.1",
     "observe": "^1.4.1",
-    "opencv4nodejs": "^5.5.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.3.0",
     "stats-lite": "^2.2.0",
     "uglify-js": "^3.7.2",
+    "xml": "^1.0.1",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {

@@ -3,18 +3,73 @@ const stats = require('stats-lite')
 const observe = require('observe')
 const mongoose = require('mongoose')
 const Weight = mongoose.model('Weight')
-
-const { cv } = require('opencv4nodejs')
+const picPath = '../../client/assets/image/weights/'
 
 let weightBuffer = []
-
-require('./scale')
-
+let img1Taken = false
+let img2Taken = false
+let images = []
 let vehicle = {
     weight: 0
 }
-
 let observer = observe(vehicle)
+
+require('./scale')
+require('./stream')
+
+async function setId() {
+
+    let id
+    let weightCount = 1
+    let now = new Date()
+    let year = now.getFullYear().toString()
+    let month = now.getMonth() + 1
+    if (month < 10) {
+        month = '0' + month
+    } else {
+        month = month.toString()
+    }
+    let day = now.getDate()
+    if (day < 10) {
+        day = '0' + day
+    } else {
+        day = day.toString()
+    }
+    let today = year + month + day
+    let todayForm = `${year}-${month}-${day}`
+
+    let dbContent
+    try {
+        dbContent = await Weight.find({ date: { $gt: new Date(todayForm) } })
+    } catch (err) {
+        console.log(err.message)
+    }
+
+    dbContent.forEach(elem => {
+        weightCount++
+    })
+    if (weightCount < 10) {
+        id = today + '_0' + weightCount
+    } else {
+        id = today + '_' + weightCount
+    }
+    return id
+}
+
+function namePics(id) {
+    let pics = []
+    const imageCount = images.length
+    for (var i = 1; i = imageCount; i++) {
+        let picId = ''
+        if (imageCount < 10) {
+            picId = id + '_0' + i + '.jpg'
+        } else {
+            picId = id + '_' + i + '.jpg'
+        }
+        pics.push(picId)
+    }
+    return pics
+}
 
 module.exports.getWeights = (weight) => {
 
@@ -23,7 +78,7 @@ module.exports.getWeights = (weight) => {
     }
 
     if (weight !== undefined && typeof (weight) === 'number' && !isNaN(weight) && weight > 200) {
-        weightBuffer.push(weight);
+        weightBuffer.push(weight)
     }
 
     if (weight < 200 && !isNaN(weight)) {
@@ -34,40 +89,33 @@ module.exports.getWeights = (weight) => {
 
         if (avgWeight !== undefined && typeof (avgWeight) === 'number' && !isNaN(avgWeight) && avgWeight > 500) {
 
-            let newWeight = new Weight()
-            newWeight.weight = avgWeight
-            newWeight.date = new Date()
-            newWeight.save(function (err, product) {
-                if (err) {
-                    console.log(err)
-                }
-                console.log(product + ' saved to db!')
+            setId().then(id => {
+
+                let newWeight = new Weight()
+                const now = new Date()
+                newWeight.id = id
+                newWeight.weight = avgWeight
+                newWeight.date = now
+                newWeight.pics = namePics(id)
+                newWeight.save(function (err, product) {
+                    if (err) {
+                        console.log(err)
+                    }
+                    console.log(product + ' saved to db!')
+                    /*for (var i = 0; i < images.length; i++) {
+                        const path = picPath + product.pics[i]
+                        const param = [cv.IMWRITE_JPEG_QUALITY, 50]
+                        cv.imwrite(path, images[i], param)
+                    }
+                    images.length = 0
+                    img1Taken = false
+                    img2Taken = false*/
+                })
             })
         }
     }
 
 }
-
-const cap = new cv.VideoCapture(process.env.StreamURI)
-const fps = 25
-let counter = 0
-
-setInterval(() => {
-    let frame = cap.read()
-    counter++
-    if (counter === 750) {
-        cap.reset()
-        counter = 0
-    }
-    if (frame.empty) {
-        cap.reset()
-        frame = cap.read()
-    } else {
-        const param = [cv.IMWRITE_JPEG_QUALITY, 11]
-        const img = cv.imencode('.jpeg', frame.resize(504,896), param).toString('base64')
-        io.emit('stream', img)
-    }
-}, Math.ceil(1000 / fps))
 
 function tableUpdate() {
     Weight.find({}).sort({ date: -1 }).exec(function (err, result) {

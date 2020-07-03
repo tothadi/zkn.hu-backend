@@ -3,7 +3,7 @@ const service = require('./rdfservice');
 const net = require('net');
 const port = process.env.rdfPort
 const host = process.env.rdfIp;
-const timeout = 3000;
+const timeout = 4000;
 const socket = new net.Socket();
 socket.setEncoding('utf8');
 const stats = require("stats-lite");

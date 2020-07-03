@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Result = mongoose.model('Result');
+const xml = require('xml')
 
 var sendJSONresponse = function (res, status, content) {
     res.status(status);
@@ -9,7 +10,7 @@ var sendJSONresponse = function (res, status, content) {
 module.exports.retrieveTop = function (req, res) {
 
     Result.find({}).sort({ time: 1 }).exec(function (err, result) {
-        
+
         if (err) {
             console.log(err);
         } else {
@@ -77,3 +78,12 @@ module.exports.result = function (req, res) {
     });
 
 };
+
+module.exports.close = (req, res) => {
+
+    res.set('Content-Type', 'text/xml');
+    const card = `kartya: ${parseInt(req.query.id.substr(2, 10), 16)}`
+    res.send(`<clear>1</clear><textxy>x01y00_${card}</textxy>`)
+    res.send('<clear>1</clear>')
+
+}
