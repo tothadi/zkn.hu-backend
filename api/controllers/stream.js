@@ -3,7 +3,7 @@ const child_process = require('child_process'),
     ffmpeg = child_process.spawn('ffmpeg', [
         '-reorder_queue_size', '5', '-rtsp_transport', 'tcp',
         '-i', path, '-framerate', '25',
-        '-an', '-c:v', 'copy', '-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+igndts', '-metadata', 'title="media source extensions"', 'pipe:1'
+        '-an', '-c:v', 'copy', '-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof', '-fflags', '+igndts', '-metadata', 'title="media source extensions"', 'pipe:1'
     ])
 
 ffmpeg.stderr.setEncoding('utf8');
