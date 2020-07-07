@@ -1,3 +1,4 @@
+
 const child_process = require('child_process'),
     path = process.env.StreamURI//'./cars.mp4'//
 //ffmpeg = require('fluent-ffmpeg')
@@ -21,7 +22,6 @@ module.exports.sendStream = function (req, res) {
     ffmpeg.stderr.setEncoding('utf8');
     ffmpeg.stderr.on('data', (data) => {
         console.log(data)
-        res.json({data})
     })
 
     ffmpeg.stdout.pipe(res)
