@@ -2,6 +2,8 @@ const child_process = require('child_process'),
     path = process.env.StreamURI//'./cars.mp4'//
 //ffmpeg = require('fluent-ffmpeg')
 
+let ffpid = []
+
 module.exports.sendStream = function (req, res) {
 
     res.writeHead(200, {
@@ -22,5 +24,8 @@ module.exports.sendStream = function (req, res) {
     })
 
     ffmpeg.stdout.pipe(res)
+
+    ffpid.push(ffmpeg.pid)
+    console.log(ffpid)
 
 }
