@@ -11,7 +11,7 @@ module.exports.sendStream = function (req, res) {
     })
 
     const ffmpeg = child_process.spawn('ffmpeg', [
-        '-fflags', '+igndts', '-reorder_queue_size', '5', '-max_delay', '5', '-rtsp_transport', 'tcp',
+        '-fflags', '+igndts', '-an', '-reorder_queue_size', '5', '-max_delay', '5', '-rtsp_transport', 'tcp',
         '-i', path, '-framerate', '25',
         '-an', '-c:v', 'copy', '-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof', '-metadata', 'title="media source extensions"', 'pipe:1'
     ])
