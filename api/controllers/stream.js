@@ -21,12 +21,14 @@ module.exports.sendStream = function (req, res) {
     ffmpeg.stderr.setEncoding('utf8');
     ffmpeg.stderr.on('data', (data) => {
         console.log(data)
+        res.json({data})
     })
 
     ffmpeg.stdout.pipe(res)
 
     req.on('close', () => {
         ffmpeg.kill()
+        console.log('ffmpeg process killed')
     })
 
 }
