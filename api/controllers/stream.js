@@ -25,7 +25,7 @@ module.exports.sendStream = function (req, res) {
 
     ffmpeg.stdout.pipe(res)
 
-    req.on('end', () => {
+    req.on('close', () => {
         console.log('ended')
     })
 
