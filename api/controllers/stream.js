@@ -3,28 +3,6 @@ const child_process = require('child_process'),
     path = process.env.StreamURI,//'./cars.mp4'//
     ffmpeg = require('fluent-ffmpeg')
 
-ffmpeg()
-    .input(path)
-    .native()
-    .inputOptions(
-        '-rtsp_transport', 'tcp'
-    )
-    .noAudio()
-    .on('start', function (commandLine) {
-        console.log('Spawned Ffmpeg with command: ' + commandLine);
-    })
-    .on('codecData', function (data) {
-        console.log('Input is ' + data.audio + ' audio ' +
-            'with ' + data.video + ' video');
-    })
-    .on('stderr', function (stderrLine) {
-        console.log('Stderr output: ' + stderrLine);
-    })
-    .on('error', function (err, stdout, stderr) {
-        console.log('Cannot process video: ' + err.message);
-    })
-
-
 module.exports.sendStream = function (req, res) {
 
     res.writeHead(200, {
@@ -34,6 +12,25 @@ module.exports.sendStream = function (req, res) {
     })
 
     ffmpeg()
+        .input(path)
+        .native()
+        .inputOptions(
+            '-rtsp_transport', 'tcp'
+        )
+        .noAudio()
+        .on('start', function (commandLine) {
+            console.log('Spawned Ffmpeg with command: ' + commandLine);
+        })
+        .on('codecData', function (data) {
+            console.log('Input is ' + data.audio + ' audio ' +
+                'with ' + data.video + ' video');
+        })
+        .on('stderr', function (stderrLine) {
+            console.log('Stderr output: ' + stderrLine);
+        })
+        .on('error', function (err, stdout, stderr) {
+            console.log('Cannot process video: ' + err.message);
+        })
         .output(stream)
         .format('mp4')
         .outputOptions([
