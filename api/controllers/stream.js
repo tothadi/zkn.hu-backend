@@ -23,7 +23,6 @@ ffmpeg()
     .on('error', function (err, stdout, stderr) {
         console.log('Cannot process video: ' + err.message);
     })
-    .run()
 
 
 module.exports.sendStream = function (req, res) {
