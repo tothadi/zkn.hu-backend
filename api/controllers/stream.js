@@ -12,7 +12,7 @@ module.exports.sendStream = function (req, res) {
 
     const ffmpeg = child_process.spawn('ffmpeg', [
         '-fflags', '+igndts', '-an', '-rtsp_transport', 'tcp',
-        '-i', path, '-vf', 'select=isnan(prev_selected_t)+gte(t-prev_selected_t,5)',
+        '-i', path, '-vf', 'select=\'isnan(prev_selected_t)+gte(t-prev_selected_t,5)\'',
         '-an', '-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof', '-metadata', 'title="media source extensions"', 'pipe:1'
     ])
 
