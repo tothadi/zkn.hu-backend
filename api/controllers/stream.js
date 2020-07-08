@@ -14,10 +14,16 @@ module.exports.sendStream = function (req, res) {
     ffmpeg()
         .input(path)
         .native()
-        .inputOptions(
-            '-rtsp_transport', 'tcp'
-        )
         .noAudio()
+        .output(stream)
+        .noAudio()
+        .videoCodec('copy')
+        .format('mp4')
+        .outputOptions([
+            '-movflags', '+frag_keyframe+empty_moov+default_base_moof',
+            '-metadata', 'title="media source extensions"',
+            'pipe:1'
+        ])
         .on('start', function (commandLine) {
             console.log('Spawned Ffmpeg with command: ' + commandLine);
         })
@@ -31,14 +37,6 @@ module.exports.sendStream = function (req, res) {
         .on('error', function (err, stdout, stderr) {
             console.log('Cannot process video: ' + err.message);
         })
-        .output(stream)
-        .format('mp4')
-        .outputOptions([
-            '-an',
-            '-c:v', 'copy',
-            '-movflags', '+frag_keyframe+empty_moov+default_base_moof',
-            '-metadata', 'title="media source extensions"'
-        ])
         .pipe(res)
     /*const ffmpeg = child_process.spawn('ffmpeg', [
         '-fflags', '+igndts', '-an', '-rtsp_transport', 'tcp',
