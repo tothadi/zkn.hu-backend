@@ -12,7 +12,7 @@ module.exports.sendStream = function (req, res) {
 
     const ffmpeg = child_process.spawn('ffmpeg', [
         '-fflags', '+igndts', '-an', '-rtsp_transport', 'tcp',
-        '-i', path,
+        '-i', path, '-vf', 'select=concatdec_select',
         '-an', '-c:v', 'copy', '-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof', '-metadata', 'title="media source extensions"', 'pipe:1'
     ])
 
@@ -24,7 +24,7 @@ module.exports.sendStream = function (req, res) {
     ffmpeg.stdout.pipe(res)
 
     req.on('close', () => {
-        res.destroy()
+        ffmpeg.kill()
         console.log('connection closed')
     })
 
