@@ -12,7 +12,7 @@ const ctrlNews = require('../controllers/newshandling')
 const ctrlActivities = require('../controllers/activitieshandling')
 const ctrlSelective = require('../controllers/selectivehandling')
 const ctrlResult = require('../controllers/resulthandling')
-const ctrlStream = require('../controllers/stream')
+//const ctrlStream = require('../controllers/stream')
 
 
 
@@ -29,7 +29,7 @@ router.post('/checkpass', ctrlResult.checkPass)
 
 
 router.post('/selectiveupdate', ctrlSelective.updateSelective)
-router.get('/stream', ctrlStream.sendStream);
+//router.get('/stream', ctrlStream.sendStream);
 router.get('/results', ctrlResult.retrieveTop);
 //router.post('/result', ctrlResult.retrieveOwn);
 //router.post('/signup', ctrlAuth.register);

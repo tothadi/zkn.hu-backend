@@ -23,10 +23,6 @@ var server = http.createServer(app);
 
 module.exports.io = require('socket.io')(server)
 
-require('../api/controllers/rdfservice')
-require('../api/controllers/scale')
-require('../api/controllers/stream')
-
 /**
  * Listen on provided port, on all network interfaces.
  */

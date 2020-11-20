@@ -4,8 +4,8 @@
   Each is commented and marked with [SH] to make them easy to find
 
  */
-//require('./api/config/config')
-require('newrelic')
+require('./api/config/config')
+//require('newrelic')
 const express = require('express')
 const path = require('path')
 const favicon = require('serve-favicon')
