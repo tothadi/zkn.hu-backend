@@ -12,6 +12,7 @@ const ctrlNews = require('../controllers/newshandling')
 const ctrlActivities = require('../controllers/activitieshandling')
 const ctrlSelective = require('../controllers/selectivehandling')
 const ctrlResult = require('../controllers/resulthandling')
+const ctrlIntro = require('../controllers/introhandling')
 //const ctrlStream = require('../controllers/stream')
 
 
@@ -20,6 +21,7 @@ router.get('/news', ctrlNews.sendNews)
 router.get('/archives', ctrlNews.sendArchive)
 router.post('/upload', ctrlNews.Addnews)
 
+router.get('/intro', ctrlIntro.sendIntro)
 router.get('/activities', ctrlActivities.sendActivities)
 router.get('/selective', ctrlSelective.sendSelective)
 router.get('/island', ctrlSelective.sendIsland)
@@ -27,7 +29,7 @@ router.post('/play', ctrlResult.result)
 router.post('/checkname', ctrlResult.checkName)
 router.post('/checkpass', ctrlResult.checkPass)
 
-
+router.post('/updateintro', ctrlIntro.updateIntro)
 router.post('/selectiveupdate', ctrlSelective.updateSelective)
 //router.get('/stream', ctrlStream.sendStream);
 router.get('/results', ctrlResult.retrieveTop);
