@@ -5,6 +5,10 @@ var selectiveSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  name: {
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     required: true
@@ -17,8 +21,8 @@ var selectiveSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  clicked: {
-    type: Boolean,
+  maxW: {
+    type: String,
     required: true
   }
 });

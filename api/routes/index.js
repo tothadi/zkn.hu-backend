@@ -13,6 +13,7 @@ const ctrlActivities = require('../controllers/activitieshandling')
 const ctrlSelective = require('../controllers/selectivehandling')
 const ctrlResult = require('../controllers/resulthandling')
 const ctrlIntro = require('../controllers/introhandling')
+const ctrlCalendar = require('../controllers/calendarhandling')
 //const ctrlStream = require('../controllers/stream')
 
 
@@ -23,15 +24,17 @@ router.post('/upload', ctrlNews.Addnews)
 
 router.get('/intro', ctrlIntro.sendIntro)
 router.get('/activities', ctrlActivities.sendActivities)
-router.get('/selective', ctrlSelective.sendSelective)
-router.get('/island', ctrlSelective.sendIsland)
 router.post('/play', ctrlResult.result)
 router.post('/checkname', ctrlResult.checkName)
 router.post('/checkpass', ctrlResult.checkPass)
 
+//router.post('/updateact', ctrlActivities.updateActivities)
 router.post('/updateintro', ctrlIntro.updateIntro)
 router.post('/selectiveupdate', ctrlSelective.updateSelective)
-//router.get('/stream', ctrlStream.sendStream);
+router.get('/cal', ctrlCalendar.saveCal)
+router.get('/cal-zeg-single', ctrlCalendar.calZegSingle)
+router.get('/cal-zeg-multi', ctrlCalendar.calZegMulti)
+router.get('/cal-videk', ctrlCalendar.calVidek)
 router.get('/results', ctrlResult.retrieveTop);
 //router.post('/result', ctrlResult.retrieveOwn);
 //router.post('/signup', ctrlAuth.register);

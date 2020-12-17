@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Activities = mongoose.model('Activities')
+const Selective = mongoose.model('Selective')
 
 module.exports.sendActivities = function (req, res) {
 
@@ -12,3 +13,25 @@ module.exports.sendActivities = function (req, res) {
 
 }
 
+/*
+module.exports.updateActivities = function (req, res) {
+
+    const introData = req.body
+    console.log(introData)
+
+
+    Selective.find({}).sort({ order: 1 }).exec(function (err, result) {
+        let filter = { sort: 1 },
+            updated = { $set: { subs: result } },
+            options = { upsert: true }
+
+        Activities.updateOne(filter, updated, options, err => {
+            res.status(200);
+        })
+
+    })
+
+
+
+
+}*/

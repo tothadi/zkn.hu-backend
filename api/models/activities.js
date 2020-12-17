@@ -17,9 +17,9 @@ var activitiesSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  pics: {
+  subs: {
     type: Array,
-    required: false,
+    required: false
   }
 });
 

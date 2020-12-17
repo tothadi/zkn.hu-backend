@@ -67,7 +67,8 @@ process.on('SIGTERM', function () {
 //require('./users');
 require('./news')
 require('./activities')
+require('./calendar')
+require('./street.js')
 require('./selective')
-require('./island')
 require('./results')
 require('./intro')

@@ -1,29 +1,7 @@
 const mongoose = require('mongoose')
 const IncomingForm = require('formidable').IncomingForm
 const Selective = mongoose.model('Selective')
-const Island = mongoose.model('Island')
 
-module.exports.sendSelective = function (req, res) {
-
-    Selective.find({}).exec(function (err, result) {
-        if (err) throw err
-        let results = JSON.stringify(result)
-        res.status(200)
-        res.json(results)
-    })
-
-}
-
-module.exports.sendIsland = function (req, res) {
-
-    Island.find({}).exec(function (err, result) {
-        if (err) throw err
-        let results = JSON.stringify(result)
-        res.status(200)
-        res.json(results)
-    })
-
-}
 
 module.exports.updateSelective = function (req, res) {
 
